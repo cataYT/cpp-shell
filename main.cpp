@@ -1,6 +1,18 @@
 #include <iostream> // for basic io functions and types
 #include <fstream> // for file creation and file reading
 #include <filesystem> // for directory creation
+#include <cstdlib> // for std::system
+#include <string>  // for std::string
+
+#ifdef _WIN32
+    const std::string open_command = "start";
+#elif __APPLE__
+    const std::string open_command = "open";
+#else // Linux
+    const std::string open_command = "xdg-open"; // run sudo apt-get install xdg-utils
+#endif
+
+#include "randomimg.hpp"
 
 int main(int argc, char **argv, char **envp) {
     bool running = true;
@@ -9,8 +21,11 @@ int main(int argc, char **argv, char **envp) {
     while (running) {
         std::cout << "Enter the command (help for all commands): ";
         std::getline(std::cin, input);
+        for (char &c : input) {
+            c = std::tolower(c);
+        }
         if (input == "help") {
-            std::cout << "Available commands:\nhelp: brings up this menu\nexit: exits the shell\ntouch: creates file\nmkdir: creates directory\necho: prints text\ncat: read from file and display on the shell" << std::endl;
+            std::cout << "Available commands:\nhelp: brings up this menu\nexit: exits the shell\ntouch: creates file\nmkdir: creates directory\necho: prints text\ncat: read from file and display on the shell\nrandomimg: generates random image" << std::endl;
         } else if (input == "touch") {
             std::string fileName;
             std::cout << "Enter the name of the file: ";
@@ -62,7 +77,15 @@ int main(int argc, char **argv, char **envp) {
                 std::cout << line << std::endl;
             }
             file.close();
-        } else if (input == "exit") {
+        } else if (input == "randomimg") {
+            std::string result = getRandImg();
+            if (result == "") {
+                std::cout << "Unsplashed api get request failed" << std::endl;
+            } else {
+                std::string command = open_command + " " + std::string(result);
+                std::system(command.c_str());
+            }
+        }  else if (input == "exit") {
             running = false;
         } else {
             std::cout << "Invalid input" << std::endl;
