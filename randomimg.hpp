@@ -8,10 +8,17 @@
 #include "apikey.hpp"
 
 size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *buffer) {
-    size_t totalSize = size * nmemb;
-    buffer->append((char*)contents, totalSize);
-    return totalSize;
+    size_t totalSize = size * nmemb; // calculate the total size of the string
+    buffer->append((char*)contents, totalSize); // append the new data to the string
+    return totalSize; // return the total size
 }
+
+// contents: pointer to data
+// size: size of data
+// nmemb: number of elements
+// buffer: pointer to string
+
+// WriteCallback() used for writing data recieved from HTTP request into buffer.
 
 std::string getRandImg() {
     std::string url = "https://api.unsplash.com/photos/random?client_id=" + apiKey;
