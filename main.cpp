@@ -68,14 +68,18 @@ int main(int argc, char **argv, char **envp) {
             std::string fileName;
             std::cout << "Enter the file: ";
             std::getline(std::cin, fileName);
+
             if (fileName == "") {
                 std::cout << "Enter a valid file name: " << std::endl;
             }
+
             std::ifstream file(fileName);
             std::string line;
+
             while (std::getline(file, line)) {
                 std::cout << line << std::endl;
             }
+            
             file.close();
         } else if (input == "randomimg") {
             std::string result = getRandImg();
@@ -83,7 +87,13 @@ int main(int argc, char **argv, char **envp) {
                 std::cout << "Unsplashed api get request failed" << std::endl;
             } else {
                 std::string command = open_command + " " + std::string(result);
-                std::system(command.c_str());
+                int resp = std::system(command.c_str());
+                
+                if (resp == 0) {
+                    std::cout << "Image opened successfully" << std::endl;
+                } else {
+                    std::cout << "Failed to open image" << std::endl;
+                }
             }
         }  else if (input == "exit") {
             running = false;
