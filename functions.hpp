@@ -5,6 +5,16 @@
 #include <fstream> // for file creation and file reading
 #include <filesystem> // for directory creation
 
+#include "randomimg.hpp"
+
+#ifdef _WIN32
+    const std::string open_command = "start";
+#elif __APPLE__
+    const std::string open_command = "open";
+#else // Linux
+    const std::string open_command = "xdg-open"; // run sudo apt-get install xdg-utils
+#endif
+
 void help() {
     std::cout << "Available commands:" << std::endl;
     std::cout << "help: brings up this menu" << std::endl;
@@ -128,5 +138,9 @@ void rmdir() {
         std::cout << "An error occurred: " << eCode.message() << std::endl;
     }
     std::cout << "Directory removed successfully" << std::endl;
+}
+
+void calc() {
+    
 }
 #endif

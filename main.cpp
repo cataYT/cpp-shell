@@ -1,14 +1,5 @@
 #include <iostream>
 
-#ifdef _WIN32
-    const std::string open_command = "start";
-#elif __APPLE__
-    const std::string open_command = "open";
-#else // Linux
-    const std::string open_command = "xdg-open"; // run sudo apt-get install xdg-utils
-#endif
-
-#include "randomimg.hpp"
 #include "functions.hpp"
 
 int main(int argc, char **argv, char **envp) {
@@ -18,9 +9,11 @@ int main(int argc, char **argv, char **envp) {
     while (running) {
         std::cout << "Enter the command (help for all commands): ";
         std::getline(std::cin, input);
+
         for (char &c : input) {
             c = std::tolower(c);
         }
+
         if (input == "help") {
             help();
         } else if (input == "touch") {
@@ -41,10 +34,11 @@ int main(int argc, char **argv, char **envp) {
             rmdir();
         } else if (input == "exit") {
             running = false;
+        } else if (input == "calc") {
+            calc();
         } else {
             std::cout << "Invalid input" << std::endl;
         }
     }
-
     return 0;
 }
