@@ -25,7 +25,17 @@ int main(int argc, char **argv, char **envp) {
             c = std::tolower(c);
         }
         if (input == "help") {
-            std::cout << "Available commands:\nhelp: brings up this menu\nexit: exits the shell\ntouch: creates file\nmkdir: creates directory\necho: prints text\ncat: read from file and display on the shell\nrandomimg: generates random image" << std::endl;
+            std::cout << "Available commands:" << std::endl;
+            std::cout << "help: brings up this menu" << std::endl;
+            std::cout << "exit: exits the shell" << std::endl;
+            std::cout << "touch: creates file" << std::endl;
+            std::cout << "mkdir: creates directory" << std::endl;
+            std::cout << "echo: prints text" << std::endl;
+            std::cout << "cat: read from file and display on the shell" << std::endl;
+            std::cout << "randomimg: generates random image" << std::endl;
+            std::cout << "clear: clears the screen" << std::endl;
+            std::cout << "rf: removes file" << std::endl;
+            std::cout << "rmdir: removes directory" << std::endl;
         } else if (input == "touch") {
             std::string fileName;
             std::cout << "Enter the name of the file: ";
@@ -96,7 +106,11 @@ int main(int argc, char **argv, char **envp) {
                 }
             }
         } else if (input == "clear") {
-           std::system("clear");
+            int resp = std::system("clear");
+            
+            if (resp != 0) {
+                std::cout << "Failed to clear screen" << std::endl;
+            }
         } else if (input == "rf") {
             std::string fileName;
             std::cout << "Enter file name to delete: ";
