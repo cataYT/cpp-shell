@@ -106,11 +106,7 @@ void randomimg() {
 }
 
 void clear() {
-    int resp = std::system("clear");
-            
-    if (resp != 0) {
-        std::cerr << "Failed to clear screen" << std::endl;
-    }
+    std::cout << "\033[2J\033[1;1H";
 }
 
 void rf(std::string fileName) {

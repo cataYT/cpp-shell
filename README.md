@@ -1,3 +1,3 @@
 # C++ SHELL
 
-Usage: ./shell arg1 arg2 ...
+Use help for all command list
