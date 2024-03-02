@@ -166,4 +166,13 @@ void calc(std::string operation, long double num1, long double num2) {
     }
 }
 
+std::string xorEncrypt(std::string str, char *key) {
+    std::string *ptr = new std::string(str);
+    for (char &c : *ptr) {
+        c = c ^ *key;
+    }
+    return *ptr;
+}
+
+
 #endif

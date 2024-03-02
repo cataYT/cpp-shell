@@ -85,6 +85,13 @@ int main(int argc, char *argv[], char *envp[]) {
             std::cerr << "Error: " << e.what() << std::endl;
             return 1;
         }
+    } else if (input == "xor") {
+        try {
+            std::cout << xorEncrypt(argv[2], argv[3]) << std::endl;
+        } catch (std::logic_error &e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return 1;
+        }
     } else {
         std::cout << "Invalid input" << std::endl;
         return 1;
