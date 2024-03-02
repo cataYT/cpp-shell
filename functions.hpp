@@ -27,6 +27,9 @@ void help() {
     std::cout << "clear: clears the screen" << std::endl;
     std::cout << "rf: removes file" << std::endl;
     std::cout << "rmdir: removes directory" << std::endl;
+    std::cout << "calc: calculator" << std::endl;
+    std::cout << "xor: xor encrypts string, also decrypts if you know the key" << std::endl;
+    std::cout << "ls: lists all files and directories" << std::endl;
 }
 
 void touch(std::string fileName) {
@@ -46,7 +49,7 @@ void touch(std::string fileName) {
 }
 
 void mkdir(std::string dirName) {
-    if (dirName == "") {
+    if (dirName.empty()) {
         std::cout << "Enter a valid directory name" << std::endl;
         return;
     }
@@ -74,7 +77,7 @@ void echo(std::string text) {
 }
 
 void cat(std::string fileName) {
-    if (fileName == "") {
+    if (fileName.empty()) {
         std::cout << "Enter a valid file name" << std::endl;
         return;
     }
@@ -96,7 +99,7 @@ void cat(std::string fileName) {
 
 void randomimg() {
     std::string result = getRandImg();
-    if (result == "") {
+    if (result.empty()) {
         std::cout << "Unsplashed api get request failed" << std::endl;
         return;
     } else {
@@ -123,7 +126,7 @@ void clear() {
 
 void rf(std::string fileName) {
     
-    if (fileName == "") {
+    if (fileName.empty()) {
         std::cout << "Enter a valid file name" << std::endl;
         return;
     }
@@ -135,7 +138,7 @@ void rf(std::string fileName) {
 }
 
 void rmdir(std::string dirName) {
-    if (dirName == "") {
+    if (dirName.empty()) {
         std::cout << "Enter a valid directory name" << std::endl;
         return;
     }
@@ -174,5 +177,17 @@ std::string xorEncrypt(std::string str, char *key) {
     return *ptr;
 }
 
+void ls() {
+    std::filesystem::path currentPath = std::filesystem::current_path();
+    for (const auto &entry : std::filesystem::directory_iterator(currentPath)) {
+        std::string filename = entry.path().filename().string(); // Extract filename from path
+        std::filesystem::path entryPath = entry.path();
+        if (std::filesystem::is_directory(entryPath)) {
+            std::cout << "d " << filename << std::endl;
+        } else {
+            std::cout << "f " << filename << std::endl;
+        }
+    }
+}
 
 #endif

@@ -13,12 +13,17 @@ size_t WriteCallback(void *contents, size_t size, size_t nmemb, std::string *buf
     return totalSize; // return the total size
 }
 
-// contents: pointer to data
-// size: size of data
-// nmemb: number of elements
-// buffer: pointer to string
-
-// WriteCallback() used for writing data recieved from HTTP request into buffer.
+/*
+*
+* @param contents: pointer to data
+* @param size: size of data
+* @param nmemb: number of elements
+* @param buffer: pointer to string
+*
+* @return: total size
+* 
+* WriteCallback() used for writing data recieved from HTTP request into buffer. 
+*/
 
 std::string getRandImg() {
     std::string url = "https://api.unsplash.com/photos/random?client_id=" + apiKey;

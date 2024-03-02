@@ -92,6 +92,8 @@ int main(int argc, char *argv[], char *envp[]) {
             std::cerr << "Error: " << e.what() << std::endl;
             return 1;
         }
+    } else if (input == "ls") {
+        ls();
     } else {
         std::cout << "Invalid input" << std::endl;
         return 1;
