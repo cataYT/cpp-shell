@@ -9,6 +9,11 @@ int main(int argc, char *argv[], char *envp[]) {
     while (running) {
         std::cout << "Enter your command: ";
         std::getline(std::cin, input);
+
+        for (char &c : input) {
+            c = std::tolower(c);
+        }
+        
         if (input == "help") {
             help();
         } else if (input == "touch") {
