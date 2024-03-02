@@ -26,7 +26,7 @@ void help() {
     std::cout << "randomimg: generates random image" << std::endl;
     std::cout << "clear: clears the screen" << std::endl;
     std::cout << "rf: removes file" << std::endl;
-    std::cout << "rmdir: removes directory" << std::endl;   
+    std::cout << "rmdir: removes directory" << std::endl;
 }
 
 void touch(std::string fileName) {
@@ -148,8 +148,22 @@ void rmdir(std::string dirName) {
     std::cout << "Directory removed successfully" << std::endl;
 }
 
-void calc() {
-    
+void calc(std::string operation, long double num1, long double num2) {
+    for (char &c : operation) {
+        c = std::tolower(c);
+    }
+
+    if (operation == "add") {
+        std::cout << num1 + num2 << std::endl;
+    } else if (operation == "sub") {
+        std::cout << num1 - num2 << std::endl;
+    } else if (operation == "mul") {
+        std::cout << num1 * num2 << std::endl;
+    } else if (operation == "div") {
+        std::cout << num1 / num2 << std::endl;
+    } else {
+        std::cout << "Invalid operation" << std::endl;
+    }
 }
 
 #endif

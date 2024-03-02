@@ -7,7 +7,7 @@ int main(int argc, char *argv[], char *envp[]) {
     if (argc == 1) {
         std::cout << "Enter something" << std::endl;
         return 1;
-    } else if (argc > 3) {
+    } else if (argc > 5) {
         std::cout << "Too many arguments" << std::endl;
         return 1;
     }
@@ -68,7 +68,23 @@ int main(int argc, char *argv[], char *envp[]) {
             return 1;
         }
     } else if (input == "calc") {
-        calc();
+        try {
+            if (argv[3] == nullptr || argv[4] == nullptr) {
+                std::cout << "Invalid input" << std::endl;
+                return 1;
+            }
+            char *result;
+            long double num1 = strtold(argv[3], &result);
+            long double num2 = strtold(argv[4], &result);
+            if (result == argv[3] || result == argv[4]) {
+                std::cerr << "Enter valid numbers" << std::endl;
+                return 1;
+            }
+            calc(argv[2], num1, num2);
+        } catch (const std::logic_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return 1;
+        }
     } else {
         std::cout << "Invalid input" << std::endl;
         return 1;

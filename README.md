@@ -1,1 +1,3 @@
 # C++ SHELL
+
+Usage: ./shell arg1 arg2 ...
