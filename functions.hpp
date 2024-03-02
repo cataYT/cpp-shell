@@ -19,6 +19,7 @@
 #define GREEN "\033[32m"
 #define RED "\033[31m"
 #define RESET "\033[0m"
+#define CLEAR_SCREEN "\033[2J\033[1;1H"
 
 void help() {
     std::cout << "Available commands:" << std::endl;
@@ -111,7 +112,7 @@ void randomimg() {
 }
 
 void clear() {
-    std::cout << "\033[2J\033[1;1H";
+    std::cout << CLEAR_SCREEN;
 }
 
 void rf(std::string fileName) {
