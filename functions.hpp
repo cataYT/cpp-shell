@@ -15,6 +15,11 @@
     const std::string open_command = "xdg-open"; // run sudo apt-get install xdg-utils
 #endif
 
+#define BOLD "\033[1m"
+#define GREEN "\033[32m"
+#define RED "\033[31m"
+#define RESET "\033[0m"
+
 void help() {
     std::cout << "Available commands:" << std::endl;
     std::cout << "help: brings up this menu" << std::endl;
@@ -164,9 +169,9 @@ void ls() {
         std::string filename = entry.path().filename().string(); // Extract filename from path
         std::filesystem::path entryPath = entry.path();
         if (std::filesystem::is_directory(entryPath)) {
-            std::cout << "dir - " << filename << std::endl;
+            std::cout << BOLD << GREEN << "dir - " << filename << RESET  << std::endl;
         } else {
-            std::cout << "file - " << filename << std::endl;
+            std::cout << BOLD << RED << "file - " << filename << RESET << std::endl;
         }
     }
 }
