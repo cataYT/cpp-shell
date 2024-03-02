@@ -31,7 +31,7 @@ int main(int argc, char **argv, char **envp) {
             std::cout << "Enter the name of the file: ";
             std::getline(std::cin, fileName);
             if (fileName == "") {
-                std::cout << "Enter a valid file name: " << std::endl;
+                std::cout << "Enter a valid file name" << std::endl;
             }
             std::ofstream file(fileName);
             std::cout << "File created" << std::endl;
@@ -41,7 +41,7 @@ int main(int argc, char **argv, char **envp) {
             std::cout << "Enter the directory name: ";
             std::getline(std::cin, dirName);
             if (dirName == "") {
-                std::cout << "Enter a valid directory name: " << std::endl;
+                std::cout << "Enter a valid directory name" << std::endl;
             }
 
             std::filesystem::path currentPath = std::filesystem::current_path();
@@ -70,7 +70,7 @@ int main(int argc, char **argv, char **envp) {
             std::getline(std::cin, fileName);
 
             if (fileName == "") {
-                std::cout << "Enter a valid file name: " << std::endl;
+                std::cout << "Enter a valid file name" << std::endl;
             }
 
             std::ifstream file(fileName);
@@ -95,7 +95,31 @@ int main(int argc, char **argv, char **envp) {
                     std::cout << "Failed to open image" << std::endl;
                 }
             }
-        }  else if (input == "exit") {
+        } else if (input == "clear") {
+           std::system("clear");
+        } else if (input == "rf") {
+            std::string fileName;
+            std::cout << "Enter file name to delete: ";
+            std::getline(std::cin, fileName);
+            if (fileName == "") {
+                std::cout << "Enter a valid file name" << std::endl;
+            }
+            remove(fileName.c_str());
+            std::cout << "Removed file successfully" << std::endl;
+        } else if(input == "rmdir") {
+            std::string dirName;
+            std::cout << "Enter the directory name to remove: ";
+            std::getline(std::cin, dirName);
+            if (dirName == "") {
+                std::cout << "Enter a valid directory name" << std::endl;
+            }
+            std::error_code eCode;
+            
+            if (!std::filesystem::remove_all(dirName, eCode)) {
+                std::cout << "An error occurred: " << eCode.message() << std::endl;
+            }
+            std::cout << "Directory removed successfully" << std::endl;
+        } else if (input == "exit") {
             running = false;
         } else {
             std::cout << "Invalid input" << std::endl;
