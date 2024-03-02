@@ -2,43 +2,76 @@
 
 #include "functions.hpp"
 
-int main(int argc, char **argv, char **envp) {
-    bool running = true;
+int main(int argc, char *argv[], char *envp[]) {
+
+    if (argc == 1) {
+        std::cout << "Enter something" << std::endl;
+        return 1;
+    } else if (argc > 3) {
+        std::cout << "Too many arguments" << std::endl;
+        return 1;
+    }
+
     std::string input;
-    std::cout << "Welcome to the shell!" << std::endl;
-    while (running) {
-        std::cout << "Enter the command (help for all commands): ";
-        std::getline(std::cin, input);
+    input = argv[1];
 
-        for (char &c : input) {
-            c = std::tolower(c);
-        }
+    for (char &c : input) {
+        c = std::tolower(c);
+    }
 
-        if (input == "help") {
-            help();
-        } else if (input == "touch") {
-            touch();
-        } else if (input == "mkdir") {
-            mkdir();
-        } else if (input == "echo") {
-            echo();
-        } else if (input == "cat") {
-            cat();
-        } else if (input == "randomimg") {
-            randomimg();
-        } else if (input == "clear") {
-            clear();
-        } else if (input == "rf") {
-            rf();
-        } else if(input == "rmdir") {
-            rmdir();
-        } else if (input == "exit") {
-            running = false;
-        } else if (input == "calc") {
-            calc();
-        } else {
-            std::cout << "Invalid input" << std::endl;
+    if (input == "help") {
+        help();
+    } else if (input == "touch") {
+        try {
+            touch(argv[2]);
+        } catch (const std::logic_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return 1;
         }
+    } else if (input == "mkdir") {
+        try {
+            mkdir(argv[2]);
+        } catch (const std::logic_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return 1;
+        }
+    } else if (input == "echo") {
+        try {
+            echo(argv[2]);            
+        } catch (const std::logic_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return 1;
+        }
+    } else if (input == "cat") {
+        try {
+            cat(argv[2]);
+        } catch (const std::logic_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return 1;
+        }
+    } else if (input == "randomimg") {
+        randomimg();
+    } else if (input == "clear") {
+        clear();
+    } else if (input == "rf") {
+        try {
+            rf(argv[2]);
+        } catch (const std::logic_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return 1;
+        }
+    } else if(input == "rmdir") {
+        try {
+            rmdir(argv[2]);
+        } catch (const std::logic_error& e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            return 1;
+        }
+    } else if (input == "calc") {
+        calc();
+    } else {
+        std::cout << "Invalid input" << std::endl;
+        return 1;
     }
     return 0;
 }

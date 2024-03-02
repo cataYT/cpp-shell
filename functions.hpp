@@ -26,27 +26,29 @@ void help() {
     std::cout << "randomimg: generates random image" << std::endl;
     std::cout << "clear: clears the screen" << std::endl;
     std::cout << "rf: removes file" << std::endl;
-    std::cout << "rmdir: removes directory" << std::endl;
+    std::cout << "rmdir: removes directory" << std::endl;   
 }
 
-void touch() {
-    std::string fileName;
-    std::cout << "Enter the name of the file: ";
-    std::getline(std::cin, fileName);
-    if (fileName == "") {
+void touch(std::string fileName) {
+    if (fileName.empty()) {
         std::cout << "Enter a valid file name" << std::endl;
+        return;
     }
+        
     std::ofstream file(fileName);
-    std::cout << "File created" << std::endl;
-    file.close();
+        
+    if (!file.is_open() || file.fail()) {
+        std::cout << "Failed to create or open file" << std::endl;
+        return; 
+    }
+        
+    std::cout << "File created: " << fileName << std::endl; 
 }
 
-void mkdir() {
-    std::string dirName;
-    std::cout << "Enter the directory name: ";
-    std::getline(std::cin, dirName);
+void mkdir(std::string dirName) {
     if (dirName == "") {
         std::cout << "Enter a valid directory name" << std::endl;
+        return;
     }
 
     std::filesystem::path currentPath = std::filesystem::current_path();
@@ -55,32 +57,34 @@ void mkdir() {
 
     if (std::filesystem::exists(newDirectoryPath)) {
         std::cerr << "Directory already exists!" << std::endl;
+        return;
     }
 
     if (std::filesystem::create_directory(newDirectoryPath)) {
         std::cout << "Directory created successfully!" << std::endl;
+        return;
     } else {
         std::cerr << "Failed to create directory!" << std::endl;
+        return;
     }
 }
 
-void echo() {
-    std::cout << "Enter text: ";
-    std::string text;
-    std::getline(std::cin, text);
+void echo(std::string text) {
     std::cout << text << std::endl;
 }
 
-void cat() {
-    std::string fileName;
-    std::cout << "Enter the file: ";
-    std::getline(std::cin, fileName);
-
+void cat(std::string fileName) {
     if (fileName == "") {
         std::cout << "Enter a valid file name" << std::endl;
+        return;
     }
 
     std::ifstream file(fileName);
+    if (!file || !file.is_open() || file.fail()) {
+        std::cout << "Failed to open file" << std::endl;
+        return;
+    }
+
     std::string line;
 
     while (std::getline(file, line)) {
@@ -94,6 +98,7 @@ void randomimg() {
     std::string result = getRandImg();
     if (result == "") {
         std::cout << "Unsplashed api get request failed" << std::endl;
+        return;
     } else {
         std::string command = open_command + " " + std::string(result);
         int resp = std::system(command.c_str());
@@ -102,6 +107,7 @@ void randomimg() {
             std::cout << "Image opened successfully" << std::endl;
         } else {
             std::cout << "Failed to open image" << std::endl;
+            return;
         }
     }
 }
@@ -111,31 +117,33 @@ void clear() {
             
     if (resp != 0) {
         std::cout << "Failed to clear screen" << std::endl;
+        return;
     }
 }
 
-void rf() {
-    std::string fileName;
-    std::cout << "Enter file name to delete: ";
-    std::getline(std::cin, fileName);
+void rf(std::string fileName) {
+    
     if (fileName == "") {
         std::cout << "Enter a valid file name" << std::endl;
+        return;
     }
-    remove(fileName.c_str());
+    if (remove(fileName.c_str()) != 0) {
+        std::cout << "Failed to remove file" << std::endl;
+        return;
+    }
     std::cout << "Removed file successfully" << std::endl;
 }
 
-void rmdir() {
-    std::string dirName;
-    std::cout << "Enter the directory name to remove: ";
-    std::getline(std::cin, dirName);
+void rmdir(std::string dirName) {
     if (dirName == "") {
         std::cout << "Enter a valid directory name" << std::endl;
+        return;
     }
     std::error_code eCode;
             
     if (!std::filesystem::remove_all(dirName, eCode)) {
         std::cout << "An error occurred: " << eCode.message() << std::endl;
+        return;
     }
     std::cout << "Directory removed successfully" << std::endl;
 }
@@ -143,4 +151,5 @@ void rmdir() {
 void calc() {
     
 }
+
 #endif
