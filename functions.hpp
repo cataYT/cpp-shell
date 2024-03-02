@@ -35,14 +35,12 @@ void help() {
 void touch(std::string fileName) {
     if (fileName.empty()) {
         std::cout << "Enter a valid file name" << std::endl;
-        return;
     }
         
     std::ofstream file(fileName);
         
     if (!file.is_open() || file.fail()) {
-        std::cout << "Failed to create or open file" << std::endl;
-        return; 
+        std::cerr << "Failed to create or open file" << std::endl;
     }
         
     std::cout << "File created: " << fileName << std::endl; 
@@ -50,8 +48,7 @@ void touch(std::string fileName) {
 
 void mkdir(std::string dirName) {
     if (dirName.empty()) {
-        std::cout << "Enter a valid directory name" << std::endl;
-        return;
+        std::cerr << "Enter a valid directory name" << std::endl;
     }
 
     std::filesystem::path currentPath = std::filesystem::current_path();
@@ -60,15 +57,12 @@ void mkdir(std::string dirName) {
 
     if (std::filesystem::exists(newDirectoryPath)) {
         std::cerr << "Directory already exists!" << std::endl;
-        return;
     }
 
     if (std::filesystem::create_directory(newDirectoryPath)) {
         std::cout << "Directory created successfully!" << std::endl;
-        return;
     } else {
         std::cerr << "Failed to create directory!" << std::endl;
-        return;
     }
 }
 
@@ -78,14 +72,12 @@ void echo(std::string text) {
 
 void cat(std::string fileName) {
     if (fileName.empty()) {
-        std::cout << "Enter a valid file name" << std::endl;
-        return;
+        std::cerr << "Enter a valid file name" << std::endl;
     }
 
     std::ifstream file(fileName);
     if (!file || !file.is_open() || file.fail()) {
-        std::cout << "Failed to open file" << std::endl;
-        return;
+        std::cerr << "Failed to open file" << std::endl;
     }
 
     std::string line;
@@ -100,8 +92,7 @@ void cat(std::string fileName) {
 void randomimg() {
     std::string result = getRandImg();
     if (result.empty()) {
-        std::cout << "Unsplashed api get request failed" << std::endl;
-        return;
+        std::cerr << "Unsplashed api get request failed" << std::endl;
     } else {
         std::string command = open_command + " " + std::string(result);
         int resp = std::system(command.c_str());
@@ -109,8 +100,7 @@ void randomimg() {
         if (resp == 0) {
             std::cout << "Image opened successfully" << std::endl;
         } else {
-            std::cout << "Failed to open image" << std::endl;
-            return;
+            std::cerr << "Failed to open image" << std::endl;
         }
     }
 }
@@ -119,34 +109,29 @@ void clear() {
     int resp = std::system("clear");
             
     if (resp != 0) {
-        std::cout << "Failed to clear screen" << std::endl;
-        return;
+        std::cerr << "Failed to clear screen" << std::endl;
     }
 }
 
 void rf(std::string fileName) {
     
     if (fileName.empty()) {
-        std::cout << "Enter a valid file name" << std::endl;
-        return;
+        std::cerr << "Enter a valid file name" << std::endl;
     }
     if (remove(fileName.c_str()) != 0) {
-        std::cout << "Failed to remove file" << std::endl;
-        return;
+        std::cerr << "Failed to remove file" << std::endl;
     }
     std::cout << "Removed file successfully" << std::endl;
 }
 
 void rmdir(std::string dirName) {
     if (dirName.empty()) {
-        std::cout << "Enter a valid directory name" << std::endl;
-        return;
+        std::cerr << "Enter a valid directory name" << std::endl;
     }
     std::error_code eCode;
             
     if (!std::filesystem::remove_all(dirName, eCode)) {
-        std::cout << "An error occurred: " << eCode.message() << std::endl;
-        return;
+        std::cerr << "An error occurred: " << eCode.message() << std::endl;
     }
     std::cout << "Directory removed successfully" << std::endl;
 }
@@ -165,7 +150,7 @@ void calc(std::string operation, long double num1, long double num2) {
     } else if (operation == "div") {
         std::cout << num1 / num2 << std::endl;
     } else {
-        std::cout << "Invalid operation" << std::endl;
+        std::cerr << "Invalid operation" << std::endl;
     }
 }
 
@@ -179,13 +164,13 @@ std::string xorEncrypt(std::string str, char *key) {
 
 void ls() {
     std::filesystem::path currentPath = std::filesystem::current_path();
-    for (const auto &entry : std::filesystem::directory_iterator(currentPath)) {
+    for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(currentPath)) {
         std::string filename = entry.path().filename().string(); // Extract filename from path
         std::filesystem::path entryPath = entry.path();
         if (std::filesystem::is_directory(entryPath)) {
-            std::cout << "d " << filename << std::endl;
+            std::cout << "dir - " << filename << std::endl;
         } else {
-            std::cout << "f " << filename << std::endl;
+            std::cout << "file - " << filename << std::endl;
         }
     }
 }
