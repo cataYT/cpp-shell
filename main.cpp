@@ -2,12 +2,23 @@
 
 #include "functions.hpp"
 
+#define BOLD "\033[1m"
+#define RESET "\033[0m"
+#define GREEN "\033[32m"
+#define MAGENTA "\033[35m"
+
 int main(int argc, char *argv[], char *envp[]) {
     bool running = true;
     std::cout << "Welcome to my customized shell!!" << std::endl;
     std::string input;
+    std::string name;
+    std::cout << "Enter your name: ";
+    std::getline(std::cin, name);
+    if (name.empty()) {
+        name = "cata";
+    }
     while (running) {
-        std::cout << "Enter your command: ";
+        std::cout << BOLD << MAGENTA << name << GREEN << "$ " << RESET;
         std::getline(std::cin, input);
 
         for (char &c : input) {
@@ -125,7 +136,7 @@ int main(int argc, char *argv[], char *envp[]) {
                 if (key == '\0') {
                     std::cerr << "Invalid key" << std::endl;
                 }
-                std::cout << xorEncrypt(argv[2], argv[3]) << std::endl;
+                std::cout << xorEncrypt(str, &key) << std::endl;
             } catch (std::logic_error &e) {
                 std::cerr << "Error: " << e.what() << std::endl;
             }
@@ -133,6 +144,8 @@ int main(int argc, char *argv[], char *envp[]) {
             ls();
         } else if (input == "exit") {
             running = false;
+        } else if (input == "pwd") {
+            pwd();
         } else {
             std::cerr << "Invalid input" << std::endl;
         }

@@ -36,6 +36,7 @@ void help() {
     std::cout << "calc: calculator" << std::endl;
     std::cout << "xor: xor encrypts string, also decrypts if you know the key" << std::endl;
     std::cout << "ls: lists all files and directories" << std::endl;
+    std::cout << "pwd: prints current working directory" << std::endl;
 }
 
 void touch(std::string fileName) {
@@ -175,6 +176,10 @@ void ls() {
             std::cout << BOLD << RED << "file - " << filename << RESET << std::endl;
         }
     }
+}
+
+void pwd() {
+    std::cout << std::filesystem::current_path() << std::endl;
 }
 
 #endif
