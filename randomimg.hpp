@@ -1,8 +1,7 @@
-#ifndef RANDOMIMG_HPP
-#define RANDOMIMG_HPP
+#pragma once
 
 #include <string>
-#include <curl/curl.h>
+#include <curl/curl.h> // run sudo apt-get install libssl-dev
 #include <nlohmann/json.hpp>
 
 #include "apikey.hpp"
@@ -48,5 +47,3 @@ std::string getRandImg() {
         return "";
     }
 }
-
-#endif // RANDOMIMG_HPP

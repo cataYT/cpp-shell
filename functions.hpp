@@ -1,9 +1,9 @@
-#ifndef FUNCTIONS_HPP
-#define FUNCTIONS_HPP
+#pragma once
 
 #include <iostream> // for basic io functions
 #include <fstream> // for file creation and file reading
 #include <filesystem> // for directory creation
+#include <openssl/sha.h> // for sha512
 
 #include "randomimg.hpp"
 
@@ -37,6 +37,7 @@ void help() {
     std::cout << "xor: xor encrypts string, also decrypts if you know the key" << std::endl;
     std::cout << "ls: lists all files and directories" << std::endl;
     std::cout << "pwd: prints current working directory" << std::endl;
+    std::cout << "sha512: encrypts the string to sha512" << std::endl;
 }
 
 void touch(std::string fileName) {
@@ -107,7 +108,18 @@ void randomimg() {
         if (resp == 0) {
             std::cout << "Image opened successfully" << std::endl;
         } else {
-            std::cerr << "Failed to open image" << std::endl;
+            if (open_command != "xdg-open")  {
+                std::cerr << "Failed to open image" << std::endl;
+            } else {
+                std::cout << "Failed to open image on linux" << std::endl;
+                std::cout << "Opening image might have been failed because you haven't installed xdg-utils, would you like to install it?: ";
+                char choice = std::cin.get();
+                if (choice == 'y') {
+                    system("sudo apt-get install xdg-utils");
+                } else {
+                    return;
+                }
+            }
         }
     }
 }
@@ -182,4 +194,24 @@ void pwd() {
     std::cout << std::filesystem::current_path() << std::endl;
 }
 
-#endif
+std::string sha512(const std::string& str) {
+    unsigned char hash[SHA512_DIGEST_LENGTH];
+    SHA512_CTX sha512;
+    SHA512_Init(&sha512);
+    SHA512_Update(&sha512, str.c_str(), str.size());
+    SHA512_Final(hash, &sha512);
+
+    std::stringstream ss;
+    for (int i = 0; i < SHA512_DIGEST_LENGTH; ++i) {
+        ss << std::hex << std::setw(2) << std::setfill('0') << (int)hash[i];
+    }
+    return ss.str();
+}
+
+bool verify_sha512(const std::string& hash1, const std::string& hash2) {
+    if (hash1 == hash2) {
+        return true;
+    } else {
+        return false;
+    }
+}

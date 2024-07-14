@@ -146,6 +146,38 @@ int main(int argc, char *argv[], char *envp[]) {
             running = false;
         } else if (input == "pwd") {
             pwd();
+        } else if (input == "sha512") {
+            std::string str;
+            std::cout << "Enter a string: ";
+            std::getline(std::cin, str);
+            if (str.empty()) {
+                std::cerr << "Enter a valid string" << std::endl;
+            }
+            std::string result = sha512(str);
+            if (!result.empty()) {
+                std::cout << result << std::endl;
+            }
+        } else if (input == "verify") {
+            std::string hash1;
+            std::cout << "Enter the directory name: ";
+            std::getline(std::cin, hash1);
+            if (hash1.empty()) {
+                std::cerr << "Please enter first hash" << std::endl;
+            }
+
+            std::string hash2;
+            std::cout << "Enter the directory name: ";
+            std::getline(std::cin, hash2);
+            if (hash2.empty()) {
+                std::cerr << "Please enter second hash" << std::endl;
+            }
+
+            bool result = verify_sha512(hash1, hash2);
+            if (result) {
+                std::cout << "SHA512 Matched!" << std::endl;
+            } else {
+                std::cout << "SHA512 did not match!" << std::endl;
+            }
         } else {
             std::cerr << "Invalid input" << std::endl;
         }
